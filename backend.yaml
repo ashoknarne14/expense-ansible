@@ -43,9 +43,8 @@
 
   - name: copy backend service file
     ansible.builtin.copy:
-      src: C:\Users\harik\devops\daws-81s\repos\expense-ansible\backend.service
+      src: backend.service
       dest: /etc/systemd/system/backend.service
-      remote_src: yes
 
   - name: create database
     community.mysql.mysql_db:
