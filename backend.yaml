@@ -45,6 +45,11 @@
     ansible.builtin.copy:
       src: backend.service
       dest: /etc/systemd/system/backend.service
+  
+  - name: install pymysql module
+    ansible.builtin.pip:
+      name: PyMySQL
+      executable: pip
 
   - name: create database
     community.mysql.mysql_db:
