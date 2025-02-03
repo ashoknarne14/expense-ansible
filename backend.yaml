@@ -1,6 +1,9 @@
 - name: backend server
   hosts: backend
   become: yes
+  vars:
+    login_password: ExpenseApp@1
+    login_host: mysql.narne.shop
   tasks:
   - name: disbale package
     ansible.builtin.command: dnf module disable nodejs -y
@@ -33,3 +36,21 @@
       dest: /app
       remote_src: yes
 
+  - name: install dependencies
+    ansible.builtin.command: npm install
+    args:
+      chdir: /app
+
+  - name: copy backend service file
+    ansible.builtin.copy:
+      src: backend.service
+      dest: /etc/systemd/system/backend.service
+      remote_src: yes
+
+  - name: create database
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: "{{login_password}}"
+      login_host: "{{login_host}}"
+      state: import
+      target: /app/schema/backend.sql
