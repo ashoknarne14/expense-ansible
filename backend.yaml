@@ -51,8 +51,12 @@
   
   - name: install pymysql module
     ansible.builtin.pip:
-      name: PyMySQL
+      name: "{{item}}"
       executable: pip
+    loop:
+      - PyMySQL
+      - cryptography
+
 
   - name: create database
     community.mysql.mysql_db:
@@ -68,3 +72,4 @@
       name: backend
       daemon_reload: true
       state: started
+      enabled: true
