@@ -62,3 +62,9 @@
       state: import
       name: all
       target: /app/schema/backend.sql
+
+  - name: daemon reload
+    ansible.builtin.systemd_service:
+      name: backend
+      daemon_reload: true
+      state: started
