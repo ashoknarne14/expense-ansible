@@ -1,6 +1,9 @@
 - name: mysql server
   hosts: mysql
   become: yes
+  vars:
+    login_password: ExpenseApp@1
+    login_host: mysql.narne.shop
   tasks:
   - name: install mysql
     ansible.builtin.package:
@@ -13,5 +16,15 @@
       state: started
       enabled: yes
 
+  - name: connect my sql server
+    community.mysql.mysql_info:
+      login_user: root
+      login_password: "{{login_password}}"
+      login_host: "{{login_host}}"
+    ignore_errors: true
+    register: sql_info
 
-    
+  - name: get db info
+    ansible.builtin.debug:
+      msg: "{{sql_info}}"
+      
